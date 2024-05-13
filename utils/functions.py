@@ -63,19 +63,19 @@ def searchbyid(id:str)->list:
     else:
         track=[]
     
-    clean_result = {    'track_id': track['id'],
-                        'href': track['href'],
-                        'track_link': track['external_urls']['spotify'],
-                        'track_name': track['name'],
-                        'artist': track['album']['artists'][0]['name'],
-                        'album_name': track['album']['name'],
-                        'album_release_year': track['album']['release_date'],
-                        # 'track_duration': round(result['duration_ms']/1000),
-                        'album_image': track['album']['images'][1]['url'],
-        }
-    cleaned_data = []
-    cleaned_data.append(clean_result)
-    return cleaned_data
+    # clean_result = {    'track_id': track['id'],
+    #                     'href': track['href'],
+    #                     'track_link': track['external_urls']['spotify'],
+    #                     'track_name': track['name'],
+    #                     'artist': track['album']['artists'][0]['name'],
+    #                     'album_name': track['album']['name'],
+    #                     'album_release_year': track['album']['release_date'],
+    #                     # 'track_duration': round(result['duration_ms']/1000),
+    #                     'album_image': track['album']['images'][1]['url'],
+    #     }
+    # cleaned_data = []
+    # cleaned_data.append(clean_result)
+    return track
     
 
     

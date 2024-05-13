@@ -111,7 +111,7 @@ def main():
                 st.write('Released: ', song['album_release_year'])
 
             with col2:
-                st.image(song['album_image'],width=125)
+                # st.image(song['album_image'],width=125)
                 st.button('I like this song!', on_click=option_song_clicked, key='so_button_'+str(index))
 
             st.divider()
