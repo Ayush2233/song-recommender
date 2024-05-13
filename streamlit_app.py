@@ -70,7 +70,7 @@ def main():
         st.session_state['popularity_max'] = 100
 
     # Logo
-    st.image('./resources/melodymind_logo_v5.png', width=150)
+    st.header("Music Recommender")
 
     st.divider()
     
