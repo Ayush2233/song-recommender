@@ -149,10 +149,10 @@ def main():
     
             with col1:
                 st.subheader(song['track_name'])
-                st.caption(song['artist'])
-                st.write(f.convert_seconds_to_min_seconds(song['track_duration']))
+                st.caption(song['artists'])
+                st.write(f.convert_seconds_to_min_seconds(song['duration_ms']))
                 st.write('Album: *'+str(song['album_name'])+'*')
-                st.write('Released: ', song['album_release_year'])
+                # st.write('Released: ', song['album_release_year'])
                 st.write('Popularity: ', song['popularity'])
     
             with col2:
