@@ -53,6 +53,36 @@ def save_pickle_file(path: str, file_name: str, file_to_save):
         pickle.dump(file_to_save, file)
 
 
+def searchbyid(id:str)->list:
+    sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=st.secrets["Client_ID"], client_secret=st.secrets["Client_Secret"]))
+
+    try:
+        track=sp.track(track_id=id)
+    except Exception as e:
+            print("Error:", e)
+    else:
+        track=[]
+    
+    clean_result = {    'track_id': track['id'],
+                        'href': track['href'],
+                        'track_link': track['external_urls']['spotify'],
+                        'track_name': track['name'],
+                        'artist': track['album']['artists'][0]['name'],
+                        'album_name': track['album']['name'],
+                        'album_release_year': track['album']['release_date'],
+                        # 'track_duration': round(result['duration_ms']/1000),
+                        'album_image': track['album']['images'][1]['url'],
+        }
+    cleaned_data = []
+    cleaned_data.append(clean_result)
+    return cleaned_data
+    
+
+    
+
+
+
+
 def search_song(title: str, artist: str) -> list:
     '''
     Given a song title and artist, this function returns up to 5 posible matches
@@ -205,7 +235,7 @@ def is_song_hot(df: pd.DataFrame, track_id: str) -> bool:
 def scale_user_song(X: pd.DataFrame) -> pd.DataFrame:
     '''
     '''
-    scaler = read_pickle_file('./scalers/scaler.pkl')
+    scaler = read_pickle_file('./scalers/scaler1.pkl')
     
     # Transform dataset
     X_scaled = scaler.transform(X)
@@ -225,38 +255,32 @@ def convert_seconds_to_min_seconds(seconds):
     
     return f"{minutes:02d}:{seconds:02d}"
 
-def recommend_song(model_name, track_id: str, min_popularity: int, max_popularity: int) -> list:
+def recommend_song(track_id: str, min_popularity: int, max_popularity: int) -> list:
     '''
     '''
 
     # Load data
-    df = pd.read_csv('./data/7_clustered_dataset.csv', sep=';')
+    df = pd.read_csv('./data/clustered_dataset1.csv')
 
     # Define selected features
     selected_features = ['energy','danceability','mode', 'speechiness', 
                          'tempo', 'acousticness', 'instrumentalness', 'valence']
 
     # Load model
-    model = read_pickle_file('./models/{}.pkl'.format(model_name))
+    model = read_pickle_file('./clustermodels1/kmeans_8.pkl')
 
-    # Get if user song is hot
-    is_hot = is_song_hot(df, track_id)
-    
-    # Get the audio features from Spotify for the song selected by user
     sp_song_audio_features = get_audio_features([track_id])[selected_features]
     
     # Work around while max retries ban
-    sp_song_audio_features = df[df['track_id'] == '59uQI0PADDKeE6UZDTJEe8'][selected_features]
+    # sp_song_audio_features = df[df['track_id'] == '59uQI0PADDKeE6UZDTJEe8'][selected_features]
 
-    # Scale user selected song
     sp_song_audio_features_scaled = scale_user_song(sp_song_audio_features)
     
     # Predict cluster of user song
     recommended_cluster = model.predict(sp_song_audio_features_scaled)[:1].item()
     
     # Get a song from database using recommended cluster + is hot / not hot
-    recommended_songs = df[(df['clusters_{}'.format(model_name)] == recommended_cluster) & 
-                           (df['is_hot'] == is_hot) & 
+    recommended_songs = df[(df['cluster'] == recommended_cluster) & 
                            (df['popularity'] >= min_popularity) &
                            (df['popularity'] <= max_popularity) &
                            (df['track_id'] != track_id)
