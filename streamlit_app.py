@@ -155,9 +155,9 @@ def main():
                 # st.write('Released: ', song['album_release_year'])
                 st.write('Popularity: ', song['popularity'])
     
-            with col2:
-                st.image(song['album_image'], width=125)
-                st.markdown('[Listen on Spotify!](' + song['track_link'] + ')')
+            # with col2:
+                # st.image(song['album_image'], width=125)
+                # st.markdown('[Listen on Spotify!](' + song['track_link'] + ')')
 
             st.divider()
                     
