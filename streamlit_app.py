@@ -46,7 +46,7 @@ def option_song_clicked():
 
     st.session_state['track_id'] = st.session_state['sp_song_data'][st.session_state['selected_song_index']]['track_id']
 
-    st.session_state['recommended_songs'] = f.recommend_song(model_name,
+    st.session_state['recommended_songs'] = f.recommend_song(
                                                              st.session_state['track_id'], 
                                                              st.session_state['popularity_min'], 
                                                              st.session_state['popularity_max']).to_dict(orient="records")
