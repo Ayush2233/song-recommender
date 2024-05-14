@@ -132,8 +132,8 @@ def main():
         # --- POPULARITY FILTER ---
         st.caption('Use the popularity filter to narrow down your results:')
         st.select_slider('',
-                                          options=['Hidden Gem', 'Underrated', 'Trending', 'Popular', 'Super hit'],
-                                          value=('Hidden Gem', 'Super hit'),
+                                          options=['0', '25', '50', '75', '100'],
+                                          value=('0', '100'),
                                          on_change=update_popularity,
                                          key='pop_slider')
 
