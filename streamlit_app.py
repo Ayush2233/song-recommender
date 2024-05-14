@@ -7,11 +7,11 @@ model_name = 'kmeans_17'
 def update_popularity():
     
     # Dictionary to convert popularity slider values to min and max values
-    pop_dict = {'Hidden Gem': 0,
-                'Underrated': 25,
-                'Trending': 50,
-                'Popular': 75,
-                'Super hit': 100}
+    pop_dict = {'0': 0,
+                '25': 25,
+                '50': 50,
+                '75': 75,
+                '100': 100}
     
     st.session_state['popularity_min'] = pop_dict[st.session_state['pop_slider'][0]]
     st.session_state['popularity_max'] = pop_dict[st.session_state['pop_slider'][1]]
